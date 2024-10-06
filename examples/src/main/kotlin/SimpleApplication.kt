@@ -15,6 +15,7 @@ class StandardMessenger : Messenger {
     }
 }
 
+// Use regular Guice or Jakarta annotations
 class SimpleApplication @Inject constructor(
     private val messenger: Messenger,
     @Named(SPECIAL_MESSAGE) private val message: String,
@@ -25,11 +26,14 @@ class SimpleApplication @Inject constructor(
 }
 
 fun main() {
+    // Bind implementations and add providers using a concise DSL
     val module = kava {
         bind { Messenger::class to StandardMessenger::class }
         provide(String::class, name = SPECIAL_MESSAGE) { "Hello, world!" }
     }
 
+    // Use the built-in Injector to get instances. Any Injector can be extended with Kava's getInstance function
+    // to create instances using the Kotlin class reference syntax
     val app = module.injector.getInstance(SimpleApplication::class)
     app.start()
 }

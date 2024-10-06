@@ -24,8 +24,11 @@ fun main() {
 }
 ```
 
+For a more realistic example, take a look at the [SimpleApplication example].
+
 ## License
 
 Licensed under the [MIT License](https://github.com/reifiedbeans/kava/blob/main/LICENSE).
 
 [Guice]: https://github.com/google/guice
+[SimpleApplication example]: https://github.com/reifiedbeans/kava/tree/main/examples/src/main/kotlin/SimpleApplication.kt
