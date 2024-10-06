@@ -6,7 +6,7 @@
 [![license: MIT](https://img.shields.io/github/license/reifiedbeans/kava
 )](https://github.com/reifiedbeans/kava/blob/main/LICENSE)
 
-An easy-to-use Kotlin DSL for building modules with the Guice dependency injection framework.
+An easy-to-use Kotlin DSL for building modules with the [Guice] dependency injection framework.
 
 ```kotlin
 import dev.reifiedbeans.kava.getInstance
@@ -28,4 +28,4 @@ fun main() {
 
 Licensed under the [MIT License](https://github.com/reifiedbeans/kava/blob/main/LICENSE).
 
-[guice]: https://github.com/google/guice
+[Guice]: https://github.com/google/guice
