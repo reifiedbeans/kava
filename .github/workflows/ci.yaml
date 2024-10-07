@@ -1,0 +1,53 @@
+name: CI
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+
+jobs:
+  release-check:
+    if: github.event_name != 'pull_request'
+    name: Release check
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # semantic-release requires write access, even for dry-runs
+    outputs:
+      new-version: ${{steps.analyze.outputs.new_release_version}}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Analyze commits
+        id: analyze
+        uses: cycjimmy/semantic-release-action@v4
+        with:
+          dry_run: true
+          extra_plugins: |
+            conventional-changelog-conventionalcommits
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    needs: release-check
+    if: always()
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'corretto'
+          java-version: 21
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Build and validate
+        run: ./gradlew --build-cache build
+        env:
+          ORG_GRADLE_PROJECT_version: ${{needs.release-check.outputs.new-version}}
